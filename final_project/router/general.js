@@ -7,7 +7,17 @@ const public_users = express.Router();
 
 public_users.post("/register", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  let username = req.body.username;
+  let password = req.body.password;
+  if (!username || !password)
+    return res.status(403).json({ message: "username or password missing" });
+  else
+  {  if (!isValid(username))
+      return res.status(403).json({ message: "username exists" });
+    else {
+      users.push({'username':username, 'password':password})
+      res.send("user with username " + username + " is created!");
+    }}
 });
 
 // Get the book list available in the shop
@@ -40,27 +50,27 @@ public_users.get('/author/:author', function (req, res) {
     }
   }
 
-  if(result.length>0){
+  if (result.length > 0) {
     res.send(JSON.stringify(result));
   }
   else {
-    return res.status(403).json({message:"no matches."});
+    return res.status(403).json({ message: "no matches." });
   }
 });
 
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
   //Write your code here
-   let check = false;
-    for (let isbn in books) {
+  let check = false;
+  for (let isbn in books) {
     if (books[isbn].title === req.params.title) {
       check = true;
       res.send(books[isbn]);
 
     }
   }
-  if(!check){
-    return res.status(403).json({message:"title does not exist"});
+  if (!check) {
+    return res.status(403).json({ message: "title does not exist" });
   }
 
   // return res.status(300).json({ message: "Yet to be implemented" });
@@ -76,6 +86,7 @@ public_users.get('/review/:isbn', function (req, res) {
   }
   else {
     return res.status(403).json({ message: 'book does not exist.' })
-  }});
+  }
+});
 
 module.exports.general = public_users;
