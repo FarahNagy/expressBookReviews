@@ -89,6 +89,20 @@ public_users.get('/author/:author', function (req, res) {
   }
 });
 
+function detailsBasedOnAuthor(author) {
+  let encodedAuthor = encodeURIComponent(author);
+  const url = `http://localhost:5000/author/${encodedAuthor}`;
+  axios.get(url)
+    .then((res) => {
+      const details = res.data;
+      console.log(`here are the details based on the author ${author} `,details);
+    })
+    .catch((err)=>{
+      console.log(`error fetching details of author ${author}`, err);
+    })
+}
+
+detailsBasedOnAuthor("Jane Austen");
 // Get all books based on title
 public_users.get('/title/:title', function (req, res) {
   //Write your code here
