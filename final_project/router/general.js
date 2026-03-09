@@ -128,7 +128,7 @@ async function detailsBasedOnTitle(title) {
     const details = await axios.get(url);
     console.log(`details based on book title ${title}`, details.data);
   }catch(err){
-    console.log(`Error fetching details on title ${title} `, err);
+    console.log(`Error fetching details on book title ${title} `, err);
   }
 }
 
