@@ -32,14 +32,15 @@ public_users.get('/', function (req, res) {
 
 
 // Using Promise callbacks
-function getBooks() {
-  axios.get('http://localhost:5000/')
-    .then((res) => {
-      console.log("Books available :", res.data);
-    })
-    .catch((error) => {
-      console.error("Error fetching books:", error.response?.data.message);
-    });
+async function getBooks() {
+
+  const url = "http://localhost:5000/";
+  try {
+    const res = await axios.get(url);
+    console.log("Books available ", res.data)
+  } catch (error) {
+    console.log("Error fetching books:", error.response?.data.message);
+  }
 }
 
 // Call the function
@@ -57,15 +58,12 @@ public_users.get('/isbn/:isbn', function (req, res) {
   }
 });
 
-async function detailsIsbn(isbn) {
-  try {
-    const details = await axios.get(`http://localhost:5000/isbn/${isbn}`);
-    // console.log('deetsss ', details);
-    console.log("details: ", details.data);
+function detailsIsbn(isbn) {
 
-  } catch (err) {
-    console.log("Error fetching books:", err.response?.data.message)
-  }
+  const url = `http://localhost:5000/isbn/${isbn}`;
+  axios.get(url).then((res) => {
+    console.log("details: ", res.data);
+  }).catch((err) => console.log("Error fetching books:"));
 
 }
 
@@ -95,9 +93,9 @@ function detailsBasedOnAuthor(author) {
   axios.get(url)
     .then((res) => {
       const details = res.data;
-      console.log(`here are the details based on the author ${author} `,details);
+      console.log(`here are the details based on the author ${author} `, details);
     })
-    .catch((err)=>{
+    .catch((err) => {
       console.log(`error fetching details of author ${author}`, err);
     })
 }
@@ -124,10 +122,10 @@ public_users.get('/title/:title', function (req, res) {
 async function detailsBasedOnTitle(title) {
   let encodedTitle = encodeURIComponent(title);
   const url = `http://localhost:5000/title/${encodedTitle}`;
-  try{
+  try {
     const details = await axios.get(url);
     console.log(`details based on book title ${title}`, details.data);
-  }catch(err){
+  } catch (err) {
     console.log(`Error fetching details on book title ${title} `, err);
   }
 }
