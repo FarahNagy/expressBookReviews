@@ -121,6 +121,19 @@ public_users.get('/title/:title', function (req, res) {
   // return res.status(300).json({ message: "Yet to be implemented" });
 });
 
+async function detailsBasedOnTitle(title) {
+  let encodedTitle = encodeURIComponent(title);
+  const url = `http://localhost:5000/title/${encodedTitle}`;
+  try{
+    const details = await axios.get(url);
+    console.log(`details based on book title ${title}`, details.data);
+  }catch(err){
+    console.log(`Error fetching details on title ${title} `, err);
+  }
+}
+
+detailsBasedOnTitle("Pride and Prejudice");
+
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
   //Write your code here
