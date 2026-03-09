@@ -57,7 +57,19 @@ public_users.get('/isbn/:isbn', function (req, res) {
   }
 });
 
+async function detailsIsbn(isbn) {
+  try {
+    const details = await axios.get(`http://localhost:5000/isbn/${isbn}`);
+    // console.log('deetsss ', details);
+    console.log("details: ", details.data);
 
+  } catch (err) {
+    console.log("Error fetching books:", err.response?.data.message)
+  }
+
+}
+
+detailsIsbn(1);
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
