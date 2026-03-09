@@ -27,7 +27,7 @@ public_users.get('/', function (req, res) {
   let allBooks = new Promise((resolve, reject) => {
     setTimeout(() => {
       resolve(books);
-    }, 6000)
+    }, 4000)
   })
   allBooks.then((books) => res.send(JSON.stringify(books)))
     .catch((err) => res.status(403).json({ message: 'book does not exist.' }));
