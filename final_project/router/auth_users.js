@@ -61,7 +61,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 regd_users.delete("/auth/review/:isbn", (req, res) => {
   let isbn = req.params.isbn;
   const username = req.session.authorization['username'];
-  if (!books[isbn]) {
+    if (!books[isbn]) {
     return res.status(404).json({ message: "Book not found" });
   }
   const reviews = books[isbn].reviews;

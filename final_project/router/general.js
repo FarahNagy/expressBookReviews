@@ -11,20 +11,26 @@ public_users.post("/register", (req, res) => {
   let password = req.body.password;
   if (!username || !password)
     return res.status(403).json({ message: "username or password missing" });
-  else
-  {  if (!isValid(username))
+  else {
+    if (!isValid(username))
       return res.status(403).json({ message: "username exists" });
     else {
-      users.push({'username':username, 'password':password})
+      users.push({ 'username': username, 'password': password })
       res.send("user with username " + username + " is created!");
-    }}
+    }
+  }
 });
 
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
   //Write your code here
-
-  return res.send(JSON.stringify(books));
+  let allBooks = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(books);
+    }, 6000)
+  })
+  allBooks.then((books) => res.send(JSON.stringify(books)))
+    .catch((err) => res.status(403).json({ message: 'book does not exist.' }));
 });
 
 // Get book details based on ISBN
