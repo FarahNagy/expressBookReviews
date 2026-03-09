@@ -24,7 +24,7 @@ const authenticatedUser = (username, password) => { //returns boolean
       return true;
     }
   }
-    return false;
+  return false;
 
 }
 
@@ -44,13 +44,18 @@ regd_users.post("/login", (req, res) => {
     }
   }
 
-  return res.status(300).json({ message: "Yet to be implemented" });
+  return res.status(300).json({ message: "Cannot log in." });
 });
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
   //Write your code here
-  return res.status(300).json({ message: "Yet to be implemented" });
+  let isbn = req.params.isbn;
+  let review = req.query.review;
+  let book = books[isbn];
+  const username = req.session.authorization['username'];
+  book.reviews[username] = review;
+  res.send("book review " + review + " added/modified");
 });
 
 module.exports.authenticated = regd_users;
