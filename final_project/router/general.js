@@ -3,6 +3,8 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require('axios');
+
 
 
 public_users.post("/register", (req, res) => {
@@ -24,15 +26,24 @@ public_users.post("/register", (req, res) => {
 // Get the book list available in the shop
 public_users.get('/', function (req, res) {
   //Write your code here
-  let allBooks = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(books);
-    }, 4000)
-  })
-  allBooks.then((books) => res.send(JSON.stringify(books)))
-    .catch((err) => res.status(403).json({ message: 'book does not exist.' }));
+
+  return res.send(JSON.stringify(books));
 });
 
+
+// Using Promise callbacks
+function getBooks() {
+  axios.get('http://localhost:5000/')
+    .then((res) => {
+      console.log("Books available :", res.data);
+    })
+    .catch((error) => {
+      console.error("Error fetching books:", error.response?.data.message);
+    });
+}
+
+// Call the function
+getBooks();
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn', function (req, res) {
   //Write your code here
@@ -45,6 +56,8 @@ public_users.get('/isbn/:isbn', function (req, res) {
     return res.status(403).json({ message: 'book does not exist.' })
   }
 });
+
+
 
 // Get book details based on author
 public_users.get('/author/:author', function (req, res) {
